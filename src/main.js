@@ -242,7 +242,7 @@ function getJoke() {
 }
 
 //currency
-document.addEventListener("DOMContentLoaded", getRates);
+document.getElementById("rates").addEventListener("click", getRates);
 
 function getRates() {
   const url = "https://www.cbr-xml-daily.ru/daily_json.js";
@@ -269,6 +269,7 @@ function getRates() {
     .catch((error) => {
       console.error("Ошибка: ", error);
     });
+  document.getElementById("currency").style.display = "block";
 }
 
 //Calendar

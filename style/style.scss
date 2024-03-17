@@ -180,6 +180,11 @@ body {
             @include curr;
         }
     }
+
+    .rates {
+        @include btn;
+    }
+
 //todo list & chart
 .main {
     display: flex;
