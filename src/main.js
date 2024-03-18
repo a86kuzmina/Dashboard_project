@@ -17,9 +17,11 @@ function showListOnload() {
     taskListContainer.innerHTML = "";
     taskList.forEach((item) => {
       const inputCheck = item.check ? "checked" : "";
-      taskListContainer.innerHTML += `<div class="main__todo-bullet"><li class="bullet">${item.taskValue}</li> <input type="checkbox" id=${item.id} class="checkbox" ${inputCheck} value="${item.taskValue}"></input> <br></div>`;
+      const checkClass = item.check ? "grey" : "";
+      taskListContainer.innerHTML += `<div class="main__todo-bullet"><li class="bullet ${checkClass}" id=${item.id}>${item.taskValue}</li> <input type="checkbox" id=${item.id} class="checkbox" ${inputCheck} value="${item.taskValue}"></input> <br></div>`;
     });
   }
+
 }
 
 document.addEventListener("DOMContentLoaded", showListOnload);
@@ -36,11 +38,11 @@ function addTask() {
   if (taskValue !== "") {
     const id = Math.floor(Math.random() * 100);
     document.getElementById("task").placeholder = "New task";
-    taskList.push({ taskValue, id, check: false });
+    taskList.push({taskValue, id, check: false});
     localStorage.setItem("taskList", JSON.stringify(taskList));
     taskListContainer.insertAdjacentHTML(
       "beforeend",
-      `<div class="main__todo-bullet"><li class="bullet">${taskValue}</li><input type="checkbox" id=${id} class="checkbox" value="${taskValue}"><br></div>`
+      `<div class="main__todo-bullet"><li class="bullet" id=${id}>${taskValue}</li><input type="checkbox" id=${id} class="checkbox" value="${taskValue}"><br></div>`
     );
     taskInput.value = "";
   } else {
@@ -82,12 +84,15 @@ document.addEventListener("change", checkProgress);
 function renderChecked(element) {
   const elementId = element.id;
   const arrCards = taskList.map((item) => {
+    let bullet = document.getElementById(`${item.id}`);
     if (item.id == elementId) {
       if (item.check) {
         item.check = false;
+        bullet.classList.remove('grey');
         return item;
       }
       item.check = true;
+      bullet.classList.add('grey');
       return item;
     }
     return item;
