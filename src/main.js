@@ -247,8 +247,15 @@ function getJoke() {
 }
 
 //currency
-document.getElementById("rates").addEventListener("click", getRates);
-
+  document.getElementById("rates").addEventListener("click", function () {
+    if (document.getElementById("currency").style.display === "none") {
+      document.getElementById("currency").style.display = "block";
+      getRates();
+    } else {
+      document.getElementById("currency").style.display = "none";
+    }
+  });
+    
 function getRates() {
   const url = "https://www.cbr-xml-daily.ru/daily_json.js";
 
@@ -256,25 +263,24 @@ function getRates() {
     .then((response) => response.json())
     .then((data) => {
       let USDrate = data.Valute.USD.Value;
-      let USD = document.getElementById("USD");
+      let USD = document.getElementById("usd");
       USD.innerHTML = USD.innerHTML.replace("00,0000", USDrate);
 
       let EURrate = data.Valute.EUR.Value;
-      let EUR = document.getElementById("EUR");
+      let EUR = document.getElementById("eur");
       EUR.innerHTML = EUR.innerHTML.replace("00,0000", EURrate);
 
       let GBPrate = data.Valute.GBP.Value;
-      let GBP = document.getElementById("GBP");
+      let GBP = document.getElementById("gbp");
       GBP.innerHTML = GBP.innerHTML.replace("00,0000", GBPrate);
 
       let CNYrate = data.Valute.CNY.Value;
-      let CNY = document.getElementById("CNY");
+      let CNY = document.getElementById("cny");
       CNY.innerHTML = CNY.innerHTML.replace("00,0000", CNYrate);
     })
     .catch((error) => {
       console.error("Ошибка: ", error);
     });
-  document.getElementById("currency").style.display = "block";
 }
 
 //Calendar
