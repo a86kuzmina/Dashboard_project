@@ -287,14 +287,14 @@ const date = document.querySelector(".month__date"),
   daysContainer = document.querySelector(".container__days"),
   prev = document.querySelector(".month__prev"),
   next = document.querySelector(".month__next");
- 
+
 let today = new Date();
 let activeDay;
 let month = today.getMonth();
 let year = today.getFullYear();
 const eventsArr = [];
 getEvents();
- 
+
 const months = [
   "January",
   "February",
@@ -309,7 +309,7 @@ const months = [
   "November",
   "December",
 ];
- 
+
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
@@ -319,9 +319,9 @@ function initCalendar() {
   let day = firstDay.getDay();
   const nextDays = 7 - lastDay.getDay();
   date.innerHTML = months[month] + " " + year;
- 
+
   let days = "";
- 
+
   {
     if (day == 1) {
       day = 0;
@@ -344,11 +344,11 @@ function initCalendar() {
                 day = 6;
               }
   }
- 
+
   for (let x = day; x > 0; x--) {
     days += `<div class="container__day--prev-date">${prevDays - x + 1}</div>`;
   }
- 
+
   for (let i = 1; i <= lastDate; i++) {
     activeDay = i;
     let event = false;
@@ -381,7 +381,7 @@ function initCalendar() {
   daysContainer.innerHTML = days;
   addListner();
 }
- 
+
 function prevMonth() {
   month--;
   if (month < 0) {
@@ -390,7 +390,7 @@ function prevMonth() {
   }
   initCalendar();
 }
- 
+
 function nextMonth() {
   month++;
   if (month > 11) {
@@ -399,30 +399,31 @@ function nextMonth() {
   }
   initCalendar();
 }
- 
+
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
- 
+
 initCalendar();
- 
+
 date.addEventListener("click", () => {
   today = new Date();
   month = today.getMonth();
   year = today.getFullYear();
   initCalendar();
 });
- 
+
 const addEventTitle = document.getElementById("event"),
   addEventDay = document.getElementById("event-day"),
   addEventFrom = document.getElementById("event-time-from"),
   addEventTo = document.getElementById("event-time-to"),
   addEventBtn = document.getElementById("event-add"),
+  listEventBtn = document.getElementById("event-list"),
   delEventBtn = document.getElementById("event-del");
- 
+
 addEventTitle.addEventListener("input", (e) => {
   addEventTitle.value = addEventTitle.value.slice(0, 60);
 });
- 
+
 addEventFrom.addEventListener("input", (e) => {
   addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
   if (addEventFrom.value.length === 2) {
@@ -432,7 +433,7 @@ addEventFrom.addEventListener("input", (e) => {
     addEventFrom.value = addEventFrom.value.slice(0, 5);
   }
 });
- 
+
 addEventTo.addEventListener("input", (e) => {
   addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
   if (addEventTo.value.length === 2) {
@@ -442,7 +443,7 @@ addEventTo.addEventListener("input", (e) => {
     addEventTo.value = addEventTo.value.slice(0, 5);
   }
 });
- 
+
 function addListner() {
   const days = document.querySelectorAll(".container__day, .container__day--prev-date, .container__day--next-date, .container__day--active--event, .container__day--active, .container__day--event, .container__day--today, .container__day--today--active--event");
   days.forEach((day) => {
@@ -480,7 +481,7 @@ function addListner() {
     });
   });
 };
- 
+
 addEventBtn.addEventListener("click", () => {
   const eventTitle = addEventTitle.value;
   const eventDay = new Date(addEventDay.value);
@@ -490,19 +491,19 @@ addEventBtn.addEventListener("click", () => {
     alert("Blank fields. Repeat the input");
     return;
   };
- 
+
   let enterDay = eventDay.getDate();
   let enterMonth = eventDay.getMonth() + 1;
   let enterYear = eventDay.getFullYear();
   let todayDay = today.getDate();
   let todayMonth = today.getMonth() + 1;
   let todayYear = today.getFullYear();
- 
+
   if (enterDay < todayDay && enterMonth <= todayMonth && enterYear <= todayYear) {
     alert("The entered date is in the past. Enter the correct date!");
     return;
   };
- 
+
   const timeFromArr = eventTimeFrom.split(":");
   const timeToArr = eventTimeTo.split(":");
   if (timeFromArr.length !== 2 || timeToArr.length !== 2 || timeFromArr[0] > 23 || timeFromArr[1] > 59 || timeToArr[0] > 23 || timeToArr[1] > 59) {
@@ -522,6 +523,19 @@ addEventBtn.addEventListener("click", () => {
   };
   updateEvents(activeDay);
   eventsArr.push(newEvent);
+
+  eventsArr.sort(function (a, b) {
+    if (a.year < b.year) return -1;
+    if (a.year > b.year) return 1;
+    // при равных score сортируем по time
+    if (a.month < b.month) return -1;
+    if (a.month > b.month) return 1;
+    // при равных score сортируем по time
+    if (a.day < b.day) return -1;
+    if (a.day > b.day) return 1;
+    return 0;
+  });
+
   saveEvents();
   initCalendar();
   addEventTitle.value = "";
@@ -529,26 +543,25 @@ addEventBtn.addEventListener("click", () => {
   addEventFrom.value = "";
   addEventTo.value = "";
 });
- 
+
 function saveEvents() {
   localStorage.setItem("events", JSON.stringify(eventsArr));
 }
- 
+
 function getEvents() {
   if (localStorage.getItem("events") === null) {
     return;
   }
   eventsArr.push(...JSON.parse(localStorage.getItem("events")));
 }
- 
+
 function updateEvents(date) {
   const currentTask = document.getElementById(`container-event`);
   let events = "";
- 
   eventsArr.forEach((event) => {
     if (date === event.day && month + 1 === event.month && year === event.year) {
       event.events.forEach((event) => {
-        events += `Date: ${date} ${months[month]} ${year}. Event:${event.title}. Time:${event.time}<br>`;
+        events += `Date: ${date} ${months[month]} ${year}. Event: ${event.title}. Time: ${event.time}<br>`;
       });
       currentTask.classList.add('container__event');
       currentTask.innerHTML = events;
@@ -559,9 +572,10 @@ function updateEvents(date) {
     currentTask.classList.remove('container__event');
     currentTask.innerHTML = events;
   };
+
   saveEvents();
 }
- 
+
 function deleteAllEvents() {
   let flag = confirm("Are you sure you want to delete calendar entries?");
   if (flag) {
@@ -571,3 +585,14 @@ function deleteAllEvents() {
   }
 }
 delEventBtn.addEventListener("click", deleteAllEvents);
+
+function listEvents() {
+  const currentTask = document.getElementById(`container-event`);
+  let events = "";
+  eventsArr.forEach((event) => {
+    events += `Date: ${event.day} ${months[event.month - 1]} ${event.year}. Event: ${event.events[0].title}. Time: ${event.events[0].time}<br>`
+  });
+  currentTask.classList.add('container__event');
+  currentTask.innerHTML = events;
+}
+listEventBtn.addEventListener("click", listEvents);

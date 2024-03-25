@@ -267,14 +267,14 @@ body {
     width: 70%;
     padding: 10px;
 }
- 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
- 
+
 .container {
     position: relative;
     display: flex;
@@ -285,7 +285,7 @@ body {
     background-color: #878895;
     border-radius: 15px;
 }
- 
+
 .container__month {
     display: flex;
     height: 100px;
@@ -295,23 +295,24 @@ body {
     font-size: 2rem;
     font-weight: 500;
     text-transform: capitalize;
- 
+
     .month__date:hover {
         color: rgb(242, 0, 255);
         cursor: pointer;
     }
- 
+
     .month__prev,
     .month__next {
         cursor: pointer;
     }
- 
+
     .month__prev:hover,
     .month__next:hover {
         color: rgb(242, 0, 255);
     }
 }
- 
+
+
 .container__weekdays {
     height: 80px;
     display: flex;
@@ -321,7 +322,7 @@ body {
     font-size: 1.5rem;
     font-weight: 500;
     text-transform: capitalize;
- 
+
     .container__nameday {
         width: 14.28%;
         display: flex;
@@ -329,7 +330,7 @@ body {
         justify-content: center;
     }
 }
- 
+
 .container__days {
     display: flex;
     flex-wrap: wrap;
@@ -338,7 +339,7 @@ body {
     font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 20px;
- 
+
     .container__day {
         width: 14.28%;
         height: 90px;
@@ -348,7 +349,7 @@ body {
         cursor: pointer;
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--prev-date,
     .container__day--next-date {
         width: 14.28%;
@@ -360,7 +361,7 @@ body {
         color: rgb(143, 174, 164);
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--active {
         position: relative;
         font-size: 2.5rem;
@@ -374,7 +375,7 @@ body {
         background-color: rgb(175, 221, 206);
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--active::before {
         content: "";
         position: absolute;
@@ -384,7 +385,7 @@ body {
         height: 100%;
         box-shadow: 0 0 10px 2px #014615;
     }
- 
+
     .container__day--today {
         position: relative;
         font-size: 3rem;
@@ -398,7 +399,7 @@ body {
         color: white;
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--event {
         position: relative;
         width: 14.28%;
@@ -410,7 +411,7 @@ body {
         color: white;
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--event::after {
         content: "";
         position: absolute;
@@ -422,7 +423,7 @@ body {
         transform: translateX(-50%);
         background-color: rgb(175, 221, 206);
     }
- 
+
     .container__day--active--event {
         position: relative;
         font-size: 2.5rem;
@@ -436,7 +437,7 @@ body {
         background-color: white;
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--active--event::after {
         content: "";
         position: absolute;
@@ -448,7 +449,7 @@ body {
         transform: translateX(-50%);
         background-color: white;
     }
- 
+
     .container__day--today--active--event {
         position: relative;
         font-size: 2.5rem;
@@ -464,7 +465,7 @@ body {
         border-radius: 10px;
         border: 1px solid rgb(175, 221, 206);
     }
- 
+
     .container__day--today--active--event::after {
         content: "";
         position: absolute;
@@ -475,7 +476,7 @@ body {
         transform: translateX(-50%);
         background-color: rgb(175, 221, 206);
     }
- 
+
     .container__day--today--active--event::before {
         content: "";
         position: absolute;
@@ -486,7 +487,7 @@ body {
         box-shadow: 0 0 10px 2px #014615;
     }
 }
- 
+
 .container__event {
     height: auto;
     display: flex;
@@ -498,7 +499,7 @@ body {
     text-transform: capitalize;
     color: rgb(175, 221, 206);
 }
- 
+
 .container__footer {
     height: auto;
     display: flex;
@@ -509,60 +510,101 @@ body {
     font-size: 1.5rem;
     font-weight: 500;
     text-transform: capitalize;
- 
+
     .container__event-text {
         width: 200px;
         font-size: 15px;
+        margin: 5px;
         font-family: "Quicksand", sans-serif;
         height: 40px;
         border-radius: 5px;
         border: solid 1px rgb(153, 147, 147);
     }
- 
+
     .container__event-day {
         width: 200px;
         font-size: 15px;
+        margin: 5px;
         font-family: "Quicksand", sans-serif;
         height: 40px;
         border-radius: 5px;
         border: solid 1px rgb(153, 147, 147);
     }
- 
+
     .container__event-time-from {
         width: 200px;
         font-size: 15px;
+        margin: 5px;
         font-family: "Quicksand", sans-serif;
         height: 40px;
         border-radius: 5px;
         border: solid 1px rgb(153, 147, 147);
     }
- 
+
     .container__event-time-to {
         width: 200px;
         font-size: 15px;
+        margin: 5px;
         font-family: "Quicksand", sans-serif;
         height: 40px;
         border-radius: 5px;
         border: solid 1px rgb(153, 147, 147);
     }
- 
+
     .container__add-event {
-        width: 400px;
+        width: 200px;
         height: 40px;
+        margin: 5px;
         font-size: 15px;
         font-weight: 700;
         font-family: "Quicksand", sans-serif;
         border-radius: 5px;
         border: none;
     }
- 
+
+    .container__list-event {
+        width: 200px;
+        height: 40px;
+        margin: 5px;
+        font-size: 15px;
+        font-weight: 700;
+        font-family: "Quicksand", sans-serif;
+        border-radius: 5px;
+        border: none;
+    }
+
     .container__del-event {
         width: 200px;
         height: 40px;
+        margin: 5px;
         font-size: 15px;
         font-family: "Quicksand", sans-serif;
         border-radius: 5px;
         border: none;
         background-color: #6e6d6d;
+    }
+
+    .container__add-event:hover {
+        background-color: rgb(175, 221, 206);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 1200;
+        cursor: pointer;
+    }
+
+    .container__list-event:hover {
+        background-color: rgb(175, 221, 206);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 1200;
+        cursor: pointer;
+    }
+
+    .container__del-event:hover {
+        background-color: rgb(242, 0, 255);
+        color: rgb(0, 0, 0);
+        font-size: 1.2rem;
+        font-weight: 1200;
+        cursor: pointer;
     }
 }
