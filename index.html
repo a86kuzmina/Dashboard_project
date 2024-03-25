@@ -10,12 +10,14 @@
   </head>
   <body>
     <header class="header">
-      <div class="weather">
-        <h2 class="weather__title">Weather forecast</h2>
-        <form class="weather__form" id="form">
-          <input id="inputCity" class="weather__input input" type="text" placeholder="Enter the city">
-          <button class="weather__btn">Show</button>
-        </form>
+      <div class="weather-block">
+        <div class="weather">
+          <h2 class="weather__title">Weather forecast</h2>
+          <form class="weather__form" id="form">
+            <input id="inputCity" class="weather__input input" type="text" placeholder="Enter the city">
+            <button class="weather__btn">Show</button>
+          </form>
+        </div>
       </div>
       <div class="joke-block">
         <div class="joke-block__container">
@@ -47,72 +49,38 @@
       </div>
       <div class="main__calendar">
         <div class="container">
-          <div class="left">
-            <div class="calendar">
-              <div class="month">
-                <i class="fas fa-angle-left prev"></i>
-                <div class="date">december 2015</div>
-                <i class="fas fa-angle-right next"></i>
-              </div>
-              <div class="weekdays">
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-                <div>Sun</div>
-              </div>
-              <div class="days"></div>
-              <div class="goto-today">
-                <div class="goto">
-                  <input type="text" placeholder="mm/yyyy" class="date-input" />
-                  <button class="goto-btn">Go</button>
-                </div>
-                <button class="today-btn">Today</button>
-              </div>
+          <div class="container__month">
+            <i class="month__prev fas fa-angle-left"></i>
+            <div class="month__date">March 2024</div>
+            <i class="month__next fas fa-angle-right"></i>
+          </div>
+          <div class="container__weekdays">
+            <div class="container__nameday">Mon</div>
+            <div class="container__nameday">Tue</div>
+            <div class="container__nameday">Wed</div>
+            <div class="container__nameday">Thu</div>
+            <div class="container__nameday">Fri</div>
+            <div class="container__nameday">Sat</div>
+            <div class="container__nameday">Sun</div>
+          </div>
+          <div class="container__days">
+<!-- add with JS -->
+          </div>
+          <div class="container__events">
+            <div id="container-event">
             </div>
           </div>
-          <div class="right">
-            <div class="today-date">
-              <div class="event-day">Sun</div>
-              <div class="event-date">17th march 2024</div>
-            </div>
-            <div class="events"></div>
-            <div class="add-event-wrapper">
-              <div class="add-event-header">
-                <div class="title">Add Event</div>
-                <i class="fas fa-times close"></i>
-              </div>
-              <div class="add-event-body">
-                <div class="add-event-input">
-                  <input type="text" placeholder="Event Name" class="event-name" id="event-name" />
-                </div>
-                <div class="add-event-input">
-                  <input
-                    type="text"
-                    placeholder="Event Time From"
-                    class="event-time-from" id="event-time-from"
-                  />
-                </div>
-                <div class="add-event-input">
-                  <input
-                    type="text"
-                    placeholder="Event Time To"
-                    class="event-time-to" id="event-time-to"
-                  />
-                </div>
-              </div>
-              <div class="add-event-footer">
-                <button class="add-event-btn">Add Event</button>
-              </div>
-            </div>
+          <div class="container__footer">
+            <input class="container__event-text" type="text" name="event" id="event" placeholder="New event" />
+            <input class="container__event-day" id="event-day" type="date" placeholder="Date" />
+            <input class="container__event-time-from" id="event-time-from" type="text" placeholder="Start 00:00" />
+            <input class="container__event-time-to" id="event-time-to" type="text" placeholder="Finish 00:00" />
           </div>
-          <button class="add-event">
-            <i class="fas fa-plus"></i>
-          </button>
+          <div class="container__footer">
+            <button class="container__add-event" id="event-add">Add event</button>          
+            <button class="container__del-event" id="event-del">Delete event</button>
+          </div>
         </div>
-    
       </div>
     </div>
     <script type="module" src="./src/main.js"></script>
