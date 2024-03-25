@@ -21,7 +21,6 @@ function showListOnload() {
       taskListContainer.innerHTML += `<div class="main__todo-bullet"><li class="bullet ${checkClass}" id=${item.id}>${item.taskValue}</li> <input type="checkbox" id=${item.id} class="checkbox" ${inputCheck} value="${item.taskValue}"></input> <br></div>`;
     });
   }
-
 }
 
 document.addEventListener("DOMContentLoaded", showListOnload);
@@ -38,7 +37,7 @@ function addTask() {
   if (taskValue !== "") {
     const id = Math.floor(Math.random() * 100);
     document.getElementById("task").placeholder = "New task";
-    taskList.push({taskValue, id, check: false});
+    taskList.push({ taskValue, id, check: false });
     localStorage.setItem("taskList", JSON.stringify(taskList));
     taskListContainer.insertAdjacentHTML(
       "beforeend",
@@ -88,11 +87,11 @@ function renderChecked(element) {
     if (item.id == elementId) {
       if (item.check) {
         item.check = false;
-        bullet.classList.remove('grey');
+        bullet.classList.remove("grey");
         return item;
       }
       item.check = true;
-      bullet.classList.add('grey');
+      bullet.classList.add("grey");
       return item;
     }
     return item;
@@ -247,15 +246,15 @@ function getJoke() {
 }
 
 //currency
-  document.getElementById("rates").addEventListener("click", function () {
-    if (document.getElementById("currency").style.display === "none") {
-      document.getElementById("currency").style.display = "block";
-      getRates();
-    } else {
-      document.getElementById("currency").style.display = "none";
-    }
-  });
-    
+document.getElementById("rates").addEventListener("click", function () {
+  if (document.getElementById("currency").style.display === "none") {
+    document.getElementById("currency").style.display = "block";
+    getRates();
+  } else {
+    document.getElementById("currency").style.display = "none";
+  }
+});
+
 function getRates() {
   const url = "https://www.cbr-xml-daily.ru/daily_json.js";
 
@@ -284,31 +283,18 @@ function getRates() {
 }
 
 //Calendar
-
-const calendar = document.querySelector(".calendar"),
-  date = document.querySelector(".date"),
-  daysContainer = document.querySelector(".days"),
-  prev = document.querySelector(".prev"),
-  next = document.querySelector(".next"),
-  todayBtn = document.querySelector(".today-btn"),
-  gotoBtn = document.querySelector(".goto-btn"),
-  dateInput = document.querySelector(".date-input"),
-  eventDay = document.querySelector(".event-day"),
-  eventDate = document.querySelector(".event-date"),
-  eventsContainer = document.querySelector(".events"),
-  addEventBtn = document.querySelector(".add-event"),
-  addEventWrapper = document.querySelector(".add-event-wrapper"),
-  addEventCloseBtn = document.querySelector(".close"),
-  addEventTitle = document.querySelector(".event-name"), 
-  addEventFrom = document.querySelector(".event-time-from"),
-  addEventTo = document.querySelector(".event-time-to"),
-  addEventSubmit = document.querySelector(".add-event-btn");
-
+const date = document.querySelector(".month__date"),
+  daysContainer = document.querySelector(".container__days"),
+  prev = document.querySelector(".month__prev"),
+  next = document.querySelector(".month__next");
+ 
 let today = new Date();
 let activeDay;
 let month = today.getMonth();
 let year = today.getFullYear();
-
+const eventsArr = [];
+getEvents();
+ 
 const months = [
   "January",
   "February",
@@ -323,10 +309,7 @@ const months = [
   "November",
   "December",
 ];
-
-const eventsArr = [];
-getEvents();
-
+ 
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
@@ -335,81 +318,70 @@ function initCalendar() {
   const lastDate = lastDay.getDate();
   let day = firstDay.getDay();
   const nextDays = 7 - lastDay.getDay();
-
   date.innerHTML = months[month] + " " + year;
-
+ 
   let days = "";
-
-  if (day == 1) {
-    day = 0;
-  } else
-    if (day == 2) {
-      day = 1;
+ 
+  {
+    if (day == 1) {
+      day = 0;
     } else
-      if (day == 3) {
-        day = 2;
+      if (day == 2) {
+        day = 1;
       } else
-        if (day == 4) {
-          day = 3;
+        if (day == 3) {
+          day = 2;
         } else
-          if (day == 5) {
-            day = 4;
+          if (day == 4) {
+            day = 3;
           } else
-            if (day == 6) {
-              day = 5;
-            } else {
-              day = 6;
-            }
-
-  for (let x = day; x > 0; x--) {
-    days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
+            if (day == 5) {
+              day = 4;
+            } else
+              if (day == 6) {
+                day = 5;
+              } else {
+                day = 6;
+              }
   }
-
+ 
+  for (let x = day; x > 0; x--) {
+    days += `<div class="container__day--prev-date">${prevDays - x + 1}</div>`;
+  }
+ 
   for (let i = 1; i <= lastDate; i++) {
+    activeDay = i;
     let event = false;
     eventsArr.forEach((eventObj) => {
-      if (
-        eventObj.day === i &&
-        eventObj.month === month + 1 &&
-        eventObj.year === year
-      ) {
+      if (eventObj.day === i && eventObj.month === month + 1 && eventObj.year === year) {
         event = true;
       }
     });
-    if (
-      i === new Date().getDate() &&
-      year === new Date().getFullYear() &&
-      month === new Date().getMonth()
-    ) {
-      activeDay = i;
-      getActiveDay(i);
-      updateEvents(i);
+    if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) {
       if (event) {
-        days += `<div class="day today active event">${i}</div>`;
+        days += `<div class="container__day--active--event">${i}</div>`
       } else {
-        days += `<div class="day today active">${i}</div>`;
+        days += `<div class="container__day--today">${i}</div>`;
       }
     } else {
       if (event) {
-        days += `<div class="day event">${i}</div>`;
+        days += `<div class="container__day--event">${i}</div>`
       } else {
-        days += `<div class="day ">${i}</div>`;
+        days += `<div class="container__day">${i}</div>`;
       }
     }
   }
-
   for (let j = 1; j <= nextDays; j++) {
     if (nextDays == 7) {
       days += ``;
-    }
-    else {
-      days += `<div class="day next-date">${j}</div>`;
+    } else {
+      days += `<div class="container__day--next-date">${j}</div>`;
     }
   }
   daysContainer.innerHTML = days;
   addListner();
 }
-
+ 
 function prevMonth() {
   month--;
   if (month < 0) {
@@ -418,7 +390,7 @@ function prevMonth() {
   }
   initCalendar();
 }
-
+ 
 function nextMonth() {
   month++;
   if (month > 11) {
@@ -427,298 +399,175 @@ function nextMonth() {
   }
   initCalendar();
 }
-
+ 
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
-
+ 
 initCalendar();
-
-function addListner() {
-  const days = document.querySelectorAll(".day");
-  days.forEach((day) => {
-    day.addEventListener("click", (e) => {
-      getActiveDay(e.target.innerHTML);
-      updateEvents(Number(e.target.innerHTML));
-      activeDay = Number(e.target.innerHTML);
-      days.forEach((day) => {
-        day.classList.remove("active");
-      });
-      if (e.target.classList.contains("prev-date")) {
-        prevMonth();
-        setTimeout(() => {
-          const days = document.querySelectorAll(".day");
-          days.forEach((day) => {
-            if (
-              !day.classList.contains("prev-date") &&
-              day.innerHTML === e.target.innerHTML
-            ) {
-              day.classList.add("active");
-            }
-          });
-        }, 100);
-      } else if (e.target.classList.contains("next-date")) {
-        nextMonth();
-        setTimeout(() => {
-          const days = document.querySelectorAll(".day");
-          days.forEach((day) => {
-            if (
-              !day.classList.contains("next-date") &&
-              day.innerHTML === e.target.innerHTML
-            ) {
-              day.classList.add("active");
-            }
-          });
-        }, 100);
-      } else {
-        e.target.classList.add("active");
-      }
-    });
-  });
-}
-
-todayBtn.addEventListener("click", () => {
+ 
+date.addEventListener("click", () => {
   today = new Date();
   month = today.getMonth();
   year = today.getFullYear();
   initCalendar();
 });
-
-dateInput.addEventListener("input", (e) => {
-  dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-  if (dateInput.value.length === 2) {
-    dateInput.value += "/";
-  }
-  if (dateInput.value.length > 7) {
-    dateInput.value = dateInput.value.slice(0, 7);
-  }
-  if (e.inputType === "deleteContentBackward") {
-    if (dateInput.value.length === 3) {
-      dateInput.value = dateInput.value.slice(0, 2);
-    }
-  }
-});
-
-gotoBtn.addEventListener("click", gotoDate);
-
-function gotoDate() {
-  console.log("here");
-  const dateArr = dateInput.value.split("/");
-  if (dateArr.length === 2) {
-    if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
-      month = dateArr[0] - 1;
-      year = dateArr[1];
-      initCalendar();
-      return;
-    }
-  }
-  alert("Invalid Date");
-}
-
-function getActiveDay(date) {
-  const day = new Date(year, month, date);
-  const dayName = day.toString().split(" ")[0];
-  eventDay.innerHTML = dayName;
-  eventDate.innerHTML = date + " " + months[month] + " " + year;
-}
-
-function updateEvents(date) {
-  let events = "";
-  eventsArr.forEach((event) => {
-    if (
-      date === event.day &&
-      month + 1 === event.month &&
-      year === event.year
-    ) {
-      event.events.forEach((event) => {
-        events += `<div class="event">
-            <div class="title">
-              <i class="fas fa-circle"></i>
-              <h3 class="event-title">${event.title}</h3>
-            </div>
-            <div class="event-time">
-              <span class="event-time">${event.time}</span>
-            </div>
-        </div>`;
-      });
-    }
-  });
-  if (events === "") {
-    events = `<div class="no-event">
-            <h3>No Events</h3>
-        </div>`;
-  }
-  eventsContainer.innerHTML = events;
-  saveEvents();
-}
-
-addEventBtn.addEventListener("click", () => {
-  addEventWrapper.classList.toggle("active");
-});
-
-addEventCloseBtn.addEventListener("click", () => {
-  addEventWrapper.classList.remove("active");
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
-    addEventWrapper.classList.remove("active");
-  }
-});
-
-addEventTitle.addEventListener("input", () => {
+ 
+const addEventTitle = document.getElementById("event"),
+  addEventDay = document.getElementById("event-day"),
+  addEventFrom = document.getElementById("event-time-from"),
+  addEventTo = document.getElementById("event-time-to"),
+  addEventBtn = document.getElementById("event-add"),
+  delEventBtn = document.getElementById("event-del");
+ 
+addEventTitle.addEventListener("input", (e) => {
   addEventTitle.value = addEventTitle.value.slice(0, 60);
 });
-
-addEventFrom.addEventListener("input", () => {
+ 
+addEventFrom.addEventListener("input", (e) => {
   addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
   if (addEventFrom.value.length === 2) {
     addEventFrom.value += ":";
-  }
+  };
   if (addEventFrom.value.length > 5) {
     addEventFrom.value = addEventFrom.value.slice(0, 5);
   }
 });
-
+ 
 addEventTo.addEventListener("input", (e) => {
   addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
   if (addEventTo.value.length === 2) {
     addEventTo.value += ":";
-  }
+  };
   if (addEventTo.value.length > 5) {
     addEventTo.value = addEventTo.value.slice(0, 5);
   }
 });
-
-addEventSubmit.addEventListener("click", () => {
+ 
+function addListner() {
+  const days = document.querySelectorAll(".container__day, .container__day--prev-date, .container__day--next-date, .container__day--active--event, .container__day--active, .container__day--event, .container__day--today, .container__day--today--active--event");
+  days.forEach((day) => {
+    day.addEventListener("click", (e) => {
+      updateEvents(Number(e.target.innerHTML));
+      activeDay = Number(e.target.innerHTML);
+      days.forEach((day) => {
+        day.classList.remove("container__day--active");
+      });
+      if (e.target.classList.contains("container__day--prev-date")) {
+        prevMonth();
+        setTimeout(() => {
+          const days = document.querySelectorAll(".container__day");
+          days.forEach((day) => {
+            if (!day.classList.contains("container__day--prev-date") &&
+              day.innerHTML === e.target.innerHTML) {
+              day.classList.add("container__day--active");
+            }
+          });
+        }, 100);
+      } else if (e.target.classList.contains("container__day--next-date")) {
+        nextMonth();
+        setTimeout(() => {
+          const days = document.querySelectorAll(".container__day");
+          days.forEach((day) => {
+            if (!day.classList.contains("container__day--next-date") &&
+              day.innerHTML === e.target.innerHTML) {
+              day.classList.add("container__day--active");
+            }
+          });
+        }, 100);
+      } else {
+        e.target.classList.add("container__day--active");
+      }
+    });
+  });
+};
+ 
+addEventBtn.addEventListener("click", () => {
   const eventTitle = addEventTitle.value;
+  const eventDay = new Date(addEventDay.value);
   const eventTimeFrom = addEventFrom.value;
   const eventTimeTo = addEventTo.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
-    alert("Please fill all the fields");
+  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventDay === "") {
+    alert("Blank fields. Repeat the input");
     return;
-  }
-
+  };
+ 
+  let enterDay = eventDay.getDate();
+  let enterMonth = eventDay.getMonth() + 1;
+  let enterYear = eventDay.getFullYear();
+  let todayDay = today.getDate();
+  let todayMonth = today.getMonth() + 1;
+  let todayYear = today.getFullYear();
+ 
+  if (enterDay < todayDay && enterMonth <= todayMonth && enterYear <= todayYear) {
+    alert("The entered date is in the past. Enter the correct date!");
+    return;
+  };
+ 
   const timeFromArr = eventTimeFrom.split(":");
   const timeToArr = eventTimeTo.split(":");
-  if (
-    timeFromArr.length !== 2 ||
-    timeToArr.length !== 2 ||
-    timeFromArr[0] > 23 ||
-    timeFromArr[1] > 59 ||
-    timeToArr[0] > 23 ||
-    timeToArr[1] > 59
-  ) {
-    alert("Invalid Time Format");
-    return;
-  }
-
-  const timeFrom = convertTime(eventTimeFrom);
-  const timeTo = convertTime(eventTimeTo);
-
-  let eventExist = false;
-  eventsArr.forEach((event) => {
-    if (
-      event.day === activeDay &&
-      event.month === month + 1 &&
-      event.year === year
-    ) {
-      event.events.forEach((event) => {
-        if (event.title === eventTitle) {
-          eventExist = true;
-        }
-      });
-    }
-  });
-  if (eventExist) {
-    alert("Event already added");
+  if (timeFromArr.length !== 2 || timeToArr.length !== 2 || timeFromArr[0] > 23 || timeFromArr[1] > 59 || timeToArr[0] > 23 || timeToArr[1] > 59) {
+    alert("Incorrect time format");
     return;
   }
   const newEvent = {
-    title: eventTitle,
-    time: timeFrom + " - " + timeTo,
+    day: eventDay.getDate(),
+    month: eventDay.getMonth() + 1,
+    year: eventDay.getFullYear(),
+    events: [
+      {
+        title: eventTitle,
+        time: eventTimeFrom + "-" + eventTimeTo,
+      },
+    ],
   };
-  console.log(newEvent);
-  console.log(activeDay);
-  let eventAdded = false;
-  if (eventsArr.length > 0) {
-    eventsArr.forEach((item) => {
-      if (
-        item.day === activeDay &&
-        item.month === month + 1 &&
-        item.year === year
-      ) {
-        item.events.push(newEvent);
-        eventAdded = true;
-      }
-    });
-  }
-
-  if (!eventAdded) {
-    eventsArr.push({
-      day: activeDay,
-      month: month + 1,
-      year: year,
-      events: [newEvent],
-    });
-  }
-
-  addEventWrapper.classList.remove("active");
+  updateEvents(activeDay);
+  eventsArr.push(newEvent);
+  saveEvents();
+  initCalendar();
   addEventTitle.value = "";
+  addEventDay.value = "";
   addEventFrom.value = "";
   addEventTo.value = "";
-  updateEvents(activeDay);
-  const activeDayEl = document.querySelector(".day.active");
-  if (!activeDayEl.classList.contains("event")) {
-    activeDayEl.classList.add("event");
-  }
 });
-
-eventsContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("event")) {
-    if (confirm("Are you sure you want to delete this event?")) {
-      const eventTitle = e.target.children[0].children[1].innerHTML;
-      eventsArr.forEach((event) => {
-        if (
-          event.day === activeDay &&
-          event.month === month + 1 &&
-          event.year === year
-        ) {
-          event.events.forEach((item, index) => {
-            if (item.title === eventTitle) {
-              event.events.splice(index, 1);
-            }
-          });
-          if (event.events.length === 0) {
-            eventsArr.splice(eventsArr.indexOf(event), 1);
-            const activeDayEl = document.querySelector(".day.active");
-            if (activeDayEl.classList.contains("event")) {
-              activeDayEl.classList.remove("event");
-            }
-          }
-        }
-      });
-      updateEvents(activeDay);
-    }
-  }
-});
-
+ 
 function saveEvents() {
   localStorage.setItem("events", JSON.stringify(eventsArr));
 }
-
+ 
 function getEvents() {
   if (localStorage.getItem("events") === null) {
     return;
   }
   eventsArr.push(...JSON.parse(localStorage.getItem("events")));
 }
-
-function convertTime(time) {
-  let timeArr = time.split(":");
-  let timeHour = timeArr[0];
-  let timeMin = timeArr[1];
-  let timeFormat = timeHour >= 12 ? "PM" : "AM";
-  timeHour = timeHour % 12 || 12;
-  time = timeHour + ":" + timeMin + " " + timeFormat;
-  return time;
+ 
+function updateEvents(date) {
+  const currentTask = document.getElementById(`container-event`);
+  let events = "";
+ 
+  eventsArr.forEach((event) => {
+    if (date === event.day && month + 1 === event.month && year === event.year) {
+      event.events.forEach((event) => {
+        events += `Date: ${date} ${months[month]} ${year}. Event:${event.title}. Time:${event.time}<br>`;
+      });
+      currentTask.classList.add('container__event');
+      currentTask.innerHTML = events;
+    }
+  });
+  if (events === "") {
+    events = ``;
+    currentTask.classList.remove('container__event');
+    currentTask.innerHTML = events;
+  };
+  saveEvents();
 }
+ 
+function deleteAllEvents() {
+  let flag = confirm("Are you sure you want to delete calendar entries?");
+  if (flag) {
+    localStorage.clear();
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+    location.reload();
+  }
+}
+delEventBtn.addEventListener("click", deleteAllEvents);
